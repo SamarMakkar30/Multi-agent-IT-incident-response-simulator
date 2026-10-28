@@ -4,6 +4,18 @@ All notable changes to the IT Incident Response War-Room project will be documen
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-10-28
+### Added
+- Phase 4: Typed Domain Tools.
+- `src/war_room/tools/`: 6 tool modules with Pydantic inputs and outputs.
+  - `alert_tools.py`: `parse_alert`, `score_severity`, `get_service_metadata`.
+  - `logs_tools.py`: `search_logs`, `summarize_error_signatures`, `find_error_onset`.
+  - `dependency_tools.py`: `get_dependencies`, `check_service_health`, `get_recent_changes`, `compute_blast_radius`.
+  - `mitigation_tools.py`: `search_runbooks`, `find_similar_past_incidents`, `get_rollback_candidates`, `check_failover_readiness`.
+  - `commander_tools.py`: `read_board`, `validate_evidence`, `record_decision`, `request_evidence`, `build_timeline`, `escalate_to_human`.
+  - `comms_tools.py`: `get_status_template`, `render_status_update`, `check_comms_policy`.
+- `tests/test_tools_*.py`: 6 comprehensive tool test suites (41 total tests passing).
+
 ## [0.4.0] - 2026-10-28
 ### Added
 - Phase 3: Explainable Retrieval & Safety Guards.
