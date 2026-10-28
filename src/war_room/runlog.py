@@ -33,20 +33,29 @@ class RunLog:
         run_id: str = "default",
         clock: Callable[[], datetime] | None = None,
     ) -> None:
-        self.log_path = Path(log_path)
-        self.run_id = run_id
         self._clock = clock or (lambda: datetime.now(UTC))
-        self.log_path.parent.mkdir(parents=True, exist_ok=True)
+        self.run_id = run_id
+        self.log_path = Path(log_path)
+
+    @property
+    def log_path(self) -> Path:
+        """Path to the append-only JSONL log file."""
+        return self._log_path
+
+    @log_path.setter
+    def log_path(self, path: str | Path) -> None:
+        self._log_path = Path(path)
+        self._log_path.parent.mkdir(parents=True, exist_ok=True)
         self._seq, self._last_hash = self._read_last_seq_and_hash()
 
     def _read_last_seq_and_hash(self) -> tuple[int, str]:
         """Read the last sequence number and hash from existing log file."""
-        if not self.log_path.exists() or self.log_path.stat().st_size == 0:
+        if not self._log_path.exists() or self._log_path.stat().st_size == 0:
             return 0, GENESIS_HASH
 
         last_seq = 0
         last_hash = GENESIS_HASH
-        with open(self.log_path, encoding="utf-8") as f:
+        with open(self._log_path, encoding="utf-8") as f:
             for line in f:
                 line = line.strip()
                 if not line:

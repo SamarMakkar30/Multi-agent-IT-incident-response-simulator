@@ -1,0 +1,317 @@
+{
+  "incident_id": "INC-20261028-004",
+  "scenario_id": "s4_ambiguous_evidence",
+  "likely_cause": "inconclusive / sparse evidence",
+  "confidence": 0.35,
+  "mitigation": "escalate_to_human",
+  "target_service": "auth-service",
+  "rationale": "Sparse logs and tool timeouts prevented confident automated remediation.",
+  "rejected_alternatives": [
+    {
+      "mitigation": "rollback",
+      "reason": "No recent deployment found"
+    },
+    {
+      "mitigation": "restart",
+      "reason": "No crash or memory leak identified"
+    }
+  ],
+  "evidence_refs": [
+    "P-001",
+    "P-002",
+    "P-006",
+    "P-008"
+  ],
+  "posts": [
+    {
+      "post_id": "P-001",
+      "seq": 1,
+      "author": "Alert Agent",
+      "kind": "incident_signal",
+      "summary": "[SEV2] auth-service alert ALT-9004: auth-service p95 latency slightly elevated; error rate zero, no crash detected",
+      "details": {
+        "service": "auth-service",
+        "metric": "p95_latency_seconds",
+        "severity": "SEV2",
+        "breach_ratio": 1.27,
+        "triggered_at": "2026-10-28T17:50:00Z",
+        "tier": 1,
+        "owner": "team-security"
+      },
+      "evidence_refs": [],
+      "confidence": 0.95,
+      "incident_time": null,
+      "posted_at": "2026-10-28T18:00:00Z",
+      "untrusted_flags": []
+    },
+    {
+      "post_id": "P-002",
+      "seq": 2,
+      "author": "Logs Agent",
+      "kind": "tool_failure",
+      "summary": "Logs search sparse for auth-service; query timed out",
+      "details": {
+        "error": "TelemetryTimeout",
+        "service": "auth-service"
+      },
+      "evidence_refs": [],
+      "confidence": null,
+      "incident_time": null,
+      "posted_at": "2026-10-28T18:00:00Z",
+      "untrusted_flags": []
+    },
+    {
+      "post_id": "P-003",
+      "seq": 3,
+      "author": "Dependency Agent",
+      "kind": "dependency_finding",
+      "summary": "Dependency check for auth-service: Health is HEALTHY. Recent deploy: None.",
+      "details": {
+        "service": "auth-service",
+        "health": {
+          "service": "auth-service",
+          "health_status": "HEALTHY",
+          "http_error_rate_5xx": 0.001,
+          "p99_latency_ms": 380.0,
+          "container_restarts": 0,
+          "provider_statuses": {}
+        },
+        "recent_deploy": null,
+        "downstream_status": {
+          "database-cluster": "HEALTHY"
+        },
+        "blast_radius": {
+          "failing_service": "auth-service",
+          "impacted_services": [
+            "api-gateway"
+          ],
+          "impacted_tier1_count": 2,
+          "user_facing_impacted": true
+        }
+      },
+      "evidence_refs": [],
+      "confidence": 0.92,
+      "incident_time": null,
+      "posted_at": "2026-10-28T18:00:00Z",
+      "untrusted_flags": []
+    },
+    {
+      "post_id": "P-004",
+      "seq": 4,
+      "author": "Mitigation Agent",
+      "kind": "mitigation_proposal",
+      "summary": "Investigate telemetry on auth-service (insufficient evidence)",
+      "details": {
+        "action": "escalate_to_human",
+        "service": "auth-service"
+      },
+      "evidence_refs": [
+        "P-003"
+      ],
+      "confidence": 0.35,
+      "incident_time": null,
+      "posted_at": "2026-10-28T18:00:00Z",
+      "untrusted_flags": []
+    },
+    {
+      "post_id": "P-005",
+      "seq": 5,
+      "author": "Incident Commander",
+      "kind": "evidence_request",
+      "summary": "Loop 1: Need additional logs for auth-service",
+      "details": {
+        "target_agent": "Logs Agent",
+        "query": "latency variance"
+      },
+      "evidence_refs": [],
+      "confidence": null,
+      "incident_time": null,
+      "posted_at": "2026-10-28T18:00:00Z",
+      "untrusted_flags": []
+    },
+    {
+      "post_id": "P-006",
+      "seq": 6,
+      "author": "Logs Agent",
+      "kind": "tool_failure",
+      "summary": "Re-query 1 for auth-service: no signatures found",
+      "details": {
+        "loop": 1,
+        "service": "auth-service"
+      },
+      "evidence_refs": [],
+      "confidence": null,
+      "incident_time": null,
+      "posted_at": "2026-10-28T18:00:00Z",
+      "untrusted_flags": []
+    },
+    {
+      "post_id": "P-007",
+      "seq": 7,
+      "author": "Incident Commander",
+      "kind": "evidence_request",
+      "summary": "Loop 2: Need additional logs for auth-service",
+      "details": {
+        "target_agent": "Logs Agent",
+        "query": "latency variance"
+      },
+      "evidence_refs": [],
+      "confidence": null,
+      "incident_time": null,
+      "posted_at": "2026-10-28T18:00:00Z",
+      "untrusted_flags": []
+    },
+    {
+      "post_id": "P-008",
+      "seq": 8,
+      "author": "Logs Agent",
+      "kind": "tool_failure",
+      "summary": "Re-query 2 for auth-service: no signatures found",
+      "details": {
+        "loop": 2,
+        "service": "auth-service"
+      },
+      "evidence_refs": [],
+      "confidence": null,
+      "incident_time": null,
+      "posted_at": "2026-10-28T18:00:00Z",
+      "untrusted_flags": []
+    },
+    {
+      "post_id": "P-009",
+      "seq": 9,
+      "author": "Incident Commander",
+      "kind": "escalation",
+      "summary": "Escalated to human: Confidence (0.35) below threshold (0.55)",
+      "details": {
+        "likely_cause": "Inconclusive / sparse telemetry",
+        "mitigation": "escalate_to_human",
+        "target_service": "auth-service",
+        "rationale": "Sparse logs and tool timeout prevented automated root cause diagnosis.",
+        "rejected_alternatives": [
+          {
+            "mitigation": "rollback",
+            "reason": "No recent deployment found"
+          },
+          {
+            "mitigation": "restart",
+            "reason": "No crash or memory leak identified"
+          }
+        ],
+        "confidence": 0.35,
+        "evidence_refs": [
+          "P-001",
+          "P-002",
+          "P-006",
+          "P-008"
+        ]
+      },
+      "evidence_refs": [
+        "P-001",
+        "P-002",
+        "P-006",
+        "P-008"
+      ],
+      "confidence": 0.35,
+      "incident_time": null,
+      "posted_at": "2026-10-28T18:00:00Z",
+      "untrusted_flags": []
+    },
+    {
+      "post_id": "P-010",
+      "seq": 10,
+      "author": "Incident Commander",
+      "kind": "timeline_entry",
+      "summary": "Postmortem incident timeline compiled",
+      "details": {
+        "timeline_rows": [
+          {
+            "incident_time": "2026-10-28T17:50:00Z",
+            "war_room_time": "2026-10-28T18:00:00+00:00",
+            "author": "Alert Agent",
+            "event": "[SEV2] auth-service alert ALT-9004: auth-service p95 latency slightly elevated; error rate zero, no crash detected",
+            "post_id": "P-001"
+          },
+          {
+            "incident_time": "N/A",
+            "war_room_time": "2026-10-28T18:00:00+00:00",
+            "author": "Logs Agent",
+            "event": "Logs search sparse for auth-service; query timed out",
+            "post_id": "P-002"
+          },
+          {
+            "incident_time": "N/A",
+            "war_room_time": "2026-10-28T18:00:00+00:00",
+            "author": "Dependency Agent",
+            "event": "Dependency check for auth-service: Health is HEALTHY. Recent deploy: None.",
+            "post_id": "P-003"
+          },
+          {
+            "incident_time": "N/A",
+            "war_room_time": "2026-10-28T18:00:00+00:00",
+            "author": "Mitigation Agent",
+            "event": "Investigate telemetry on auth-service (insufficient evidence)",
+            "post_id": "P-004"
+          },
+          {
+            "incident_time": "N/A",
+            "war_room_time": "2026-10-28T18:00:00+00:00",
+            "author": "Incident Commander",
+            "event": "Loop 1: Need additional logs for auth-service",
+            "post_id": "P-005"
+          },
+          {
+            "incident_time": "N/A",
+            "war_room_time": "2026-10-28T18:00:00+00:00",
+            "author": "Logs Agent",
+            "event": "Re-query 1 for auth-service: no signatures found",
+            "post_id": "P-006"
+          },
+          {
+            "incident_time": "N/A",
+            "war_room_time": "2026-10-28T18:00:00+00:00",
+            "author": "Incident Commander",
+            "event": "Loop 2: Need additional logs for auth-service",
+            "post_id": "P-007"
+          },
+          {
+            "incident_time": "N/A",
+            "war_room_time": "2026-10-28T18:00:00+00:00",
+            "author": "Logs Agent",
+            "event": "Re-query 2 for auth-service: no signatures found",
+            "post_id": "P-008"
+          },
+          {
+            "incident_time": "N/A",
+            "war_room_time": "2026-10-28T18:00:00+00:00",
+            "author": "Incident Commander",
+            "event": "Escalated to human: Confidence (0.35) below threshold (0.55)",
+            "post_id": "P-009"
+          }
+        ]
+      },
+      "evidence_refs": [],
+      "confidence": null,
+      "incident_time": null,
+      "posted_at": "2026-10-28T18:00:00Z",
+      "untrusted_flags": []
+    },
+    {
+      "post_id": "P-011",
+      "seq": 11,
+      "author": "Comms Agent",
+      "kind": "status_update",
+      "summary": "Status update published for auth-service",
+      "details": {
+        "service": "auth-service",
+        "text": "**SERVICE DEGRADATION**: We are observing degraded performance on auth-service. Impact: Customers may experience intermittent transaction delays. Status: Mitigating with escalate_to_human. Mitigations have been initiated. Next update in 30 minutes.",
+        "compliant": true
+      },
+      "evidence_refs": [],
+      "confidence": null,
+      "incident_time": null,
+      "posted_at": "2026-10-28T18:00:00Z",
+      "untrusted_flags": []
+    }
+  ]
+}

@@ -4,6 +4,17 @@ All notable changes to the IT Incident Response War-Room project will be documen
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-10-28
+### Added
+- Phase 7: Demo Notebook, Architecture Visuals, Documentation & Final Polish.
+- `notebooks/demo.ipynb`: Interactive Jupyter notebook running offline and printing multi-agent blackboard traces, postmortem timeline tables, and hash chain verification across scenarios S1, S3, S4, and S5.
+- `docs/architecture.mmd` & `docs/architecture.png`: High-resolution diagram of the blackboard war-room architecture and agent interaction flows.
+- `README.md`: Comprehensive engineering documentation covering agent roster, blackboard architecture rationale, tool matrix, explainable BM25 retrieval, deterministic safety guards, and honest failure walkthrough.
+- CLI Entrypoint: Direct `--scenario` and `--demo` execution on `src/war_room/orchestrator.py`.
+- `logs/run_log.jsonl`: Cryptographically verified SHA-256 hash-chained execution logs.
+- `outputs/`: Persisted machine-readable JSON exports for incident board states.
+- 100% clean `ruff` code style and 52/52 green `pytest` test suite.
+
 ## [0.7.0] - 2026-10-28
 ### Added
 - Phase 6: War-Room Orchestrator & End-to-End Scenarios S1-S6.

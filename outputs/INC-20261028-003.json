@@ -1,0 +1,235 @@
+{
+  "incident_id": "INC-20261028-003",
+  "scenario_id": "s3_upstream_outage",
+  "likely_cause": "upstream provider outage on payments-gateway primary processor",
+  "confidence": 0.94,
+  "mitigation": "failover",
+  "target_service": "payments-gateway",
+  "rationale": "Timeouts contacting external-payments-primary. Secondary processor is warm and ready.",
+  "rejected_alternatives": [
+    {
+      "mitigation": "rollback",
+      "reason": "Failure is in external provider network, not internal code"
+    },
+    {
+      "mitigation": "restart",
+      "reason": "Restarting payments-gateway will not fix third-party endpoint"
+    }
+  ],
+  "evidence_refs": [
+    "P-002",
+    "P-003"
+  ],
+  "posts": [
+    {
+      "post_id": "P-001",
+      "seq": 1,
+      "author": "Alert Agent",
+      "kind": "incident_signal",
+      "summary": "[SEV1] orders-service alert ALT-9003: orders-service 45% of outbound charge requests to payments-gateway timing out",
+      "details": {
+        "service": "orders-service",
+        "metric": "payment_gateway_timeout_rate",
+        "severity": "SEV1",
+        "breach_ratio": 22.5,
+        "triggered_at": "2026-10-28T16:05:00Z",
+        "tier": 1,
+        "owner": "team-orders"
+      },
+      "evidence_refs": [],
+      "confidence": 0.95,
+      "incident_time": null,
+      "posted_at": "2026-10-28T16:15:00Z",
+      "untrusted_flags": []
+    },
+    {
+      "post_id": "P-002",
+      "seq": 2,
+      "author": "Logs Agent",
+      "kind": "log_finding",
+      "summary": "Logs show 1 error signatures. Primary: GatewayTimeout: 504 from payments-gateway",
+      "details": {
+        "service": "orders-service",
+        "signatures": [
+          {
+            "signature": "GatewayTimeout: 504 from payments-gateway",
+            "count": 2,
+            "first_seen": "2026-10-28T16:03:16Z",
+            "last_seen": "2026-10-28T16:04:25Z",
+            "sample_message": "HTTP 504 Gateway Timeout received from payments-gateway on POST /v1/charge"
+          }
+        ],
+        "onset_timestamp": "2026-10-28T16:03:16Z",
+        "match_count": 3
+      },
+      "evidence_refs": [],
+      "confidence": 0.9,
+      "incident_time": "2026-10-28T16:03:16Z",
+      "posted_at": "2026-10-28T16:15:00Z",
+      "untrusted_flags": []
+    },
+    {
+      "post_id": "P-003",
+      "seq": 3,
+      "author": "Dependency Agent",
+      "kind": "dependency_finding",
+      "summary": "Dependency check for orders-service: Health is HEALTHY. Recent deploy: None.",
+      "details": {
+        "service": "orders-service",
+        "health": {
+          "service": "orders-service",
+          "health_status": "HEALTHY",
+          "http_error_rate_5xx": 0.0001,
+          "p99_latency_ms": 45.0,
+          "container_restarts": 0,
+          "provider_statuses": {}
+        },
+        "recent_deploy": null,
+        "downstream_status": {
+          "payments-gateway": "DEGRADED",
+          "database-cluster": "HEALTHY",
+          "notification-service": "HEALTHY"
+        },
+        "blast_radius": {
+          "failing_service": "orders-service",
+          "impacted_services": [
+            "api-gateway",
+            "checkout-service"
+          ],
+          "impacted_tier1_count": 3,
+          "user_facing_impacted": true
+        }
+      },
+      "evidence_refs": [],
+      "confidence": 0.92,
+      "incident_time": null,
+      "posted_at": "2026-10-28T16:15:00Z",
+      "untrusted_flags": []
+    },
+    {
+      "post_id": "P-004",
+      "seq": 4,
+      "author": "Mitigation Agent",
+      "kind": "mitigation_proposal",
+      "summary": "Failover payments-gateway to secondary provider external-payments-secondary",
+      "details": {
+        "action": "failover",
+        "service": "payments-gateway",
+        "target": "external-payments-secondary",
+        "rationale": "Primary provider failing for payments-gateway; secondary standby is warm and healthy."
+      },
+      "evidence_refs": [
+        "P-002",
+        "P-003"
+      ],
+      "confidence": 0.94,
+      "incident_time": null,
+      "posted_at": "2026-10-28T16:15:00Z",
+      "untrusted_flags": []
+    },
+    {
+      "post_id": "P-005",
+      "seq": 5,
+      "author": "Incident Commander",
+      "kind": "decision",
+      "summary": "Approved mitigation 'failover' for payments-gateway: upstream provider outage on payments-gateway primary processor",
+      "details": {
+        "likely_cause": "upstream provider outage on payments-gateway primary processor",
+        "mitigation": "failover",
+        "target_service": "payments-gateway",
+        "rationale": "Timeouts contacting external-payments-primary. Secondary processor is warm and ready.",
+        "rejected_alternatives": [
+          {
+            "mitigation": "rollback",
+            "reason": "Failure is in external provider network, not internal code"
+          },
+          {
+            "mitigation": "restart",
+            "reason": "Restarting payments-gateway will not fix third-party endpoint"
+          }
+        ],
+        "confidence": 0.94,
+        "evidence_refs": [
+          "P-002",
+          "P-003"
+        ]
+      },
+      "evidence_refs": [
+        "P-002",
+        "P-003"
+      ],
+      "confidence": 0.94,
+      "incident_time": null,
+      "posted_at": "2026-10-28T16:15:00Z",
+      "untrusted_flags": []
+    },
+    {
+      "post_id": "P-006",
+      "seq": 6,
+      "author": "Incident Commander",
+      "kind": "timeline_entry",
+      "summary": "Postmortem incident timeline compiled",
+      "details": {
+        "timeline_rows": [
+          {
+            "incident_time": "2026-10-28T16:05:00Z",
+            "war_room_time": "2026-10-28T16:15:00+00:00",
+            "author": "Alert Agent",
+            "event": "[SEV1] orders-service alert ALT-9003: orders-service 45% of outbound charge requests to payments-gateway timing out",
+            "post_id": "P-001"
+          },
+          {
+            "incident_time": "2026-10-28T16:03:16+00:00",
+            "war_room_time": "2026-10-28T16:15:00+00:00",
+            "author": "Logs Agent",
+            "event": "Logs show 1 error signatures. Primary: GatewayTimeout: 504 from payments-gateway",
+            "post_id": "P-002"
+          },
+          {
+            "incident_time": "N/A",
+            "war_room_time": "2026-10-28T16:15:00+00:00",
+            "author": "Dependency Agent",
+            "event": "Dependency check for orders-service: Health is HEALTHY. Recent deploy: None.",
+            "post_id": "P-003"
+          },
+          {
+            "incident_time": "N/A",
+            "war_room_time": "2026-10-28T16:15:00+00:00",
+            "author": "Mitigation Agent",
+            "event": "Failover payments-gateway to secondary provider external-payments-secondary",
+            "post_id": "P-004"
+          },
+          {
+            "incident_time": "N/A",
+            "war_room_time": "2026-10-28T16:15:00+00:00",
+            "author": "Incident Commander",
+            "event": "Approved mitigation 'failover' for payments-gateway: upstream provider outage on payments-gateway primary processor",
+            "post_id": "P-005"
+          }
+        ]
+      },
+      "evidence_refs": [],
+      "confidence": null,
+      "incident_time": null,
+      "posted_at": "2026-10-28T16:15:00Z",
+      "untrusted_flags": []
+    },
+    {
+      "post_id": "P-007",
+      "seq": 7,
+      "author": "Comms Agent",
+      "kind": "status_update",
+      "summary": "Status update published for payments-gateway",
+      "details": {
+        "service": "payments-gateway",
+        "text": "**CRITICAL SERVICE INCIDENT**: We are investigating an issue impacting payments-gateway. Impact: Customers may experience intermittent transaction delays. Status: Mitigating with failover. Engineering teams have identified cause and mitigation actions are in progress. Next update in 15 minutes.",
+        "compliant": true
+      },
+      "evidence_refs": [],
+      "confidence": null,
+      "incident_time": null,
+      "posted_at": "2026-10-28T16:15:00Z",
+      "untrusted_flags": []
+    }
+  ]
+}

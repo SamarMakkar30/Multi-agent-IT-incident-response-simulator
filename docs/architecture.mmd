@@ -1,0 +1,16 @@
+flowchart LR
+  ALERT["Alert payload"] --> AL["Alert Agent"]
+  AL -->|incident_signal| BOARD[("Incident Board - blackboard")]
+  BOARD --> LG["Logs Agent"]
+  BOARD --> DP["Dependency Agent"]
+  LG -->|log_finding| BOARD
+  DP -->|dependency_finding| BOARD
+  BOARD --> MT["Mitigation Agent"]
+  MT -->|mitigation_proposal| BOARD
+  BOARD --> IC["Incident Commander"]
+  IC -->|decision + timeline| BOARD
+  IC -. "evidence_request (max 2 loops)" .-> LG
+  IC -. "evidence_request" .-> DP
+  IC -->|low confidence| HUMAN["Human on-call"]
+  BOARD --> CM["Comms Agent (add-on)"]
+  BOARD --> RL[("Append-only run log")]

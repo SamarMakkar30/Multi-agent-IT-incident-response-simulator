@@ -73,6 +73,7 @@ class WarRoomOrchestrator:
         self,
         env: Environment,
         run_log: RunLog | None = None,
+        run_log_path: str | Path | None = None,
         clock: Callable[[], datetime] | None = None,
         client: BaseChatClient | None = None,
         confidence_threshold: float = 0.55,
@@ -86,11 +87,15 @@ class WarRoomOrchestrator:
         self.max_loops = max_loops
         self.outputs_dir = Path(outputs_dir)
         self.outputs_dir.mkdir(parents=True, exist_ok=True)
-        self.run_log = run_log or RunLog(
-            log_path="logs/run_log.jsonl",
-            run_id=env.scenario_id,
-            clock=self.clock,
-        )
+        if run_log is not None:
+            self.run_log = run_log
+        else:
+            path = run_log_path or "logs/run_log.jsonl"
+            self.run_log = RunLog(
+                log_path=path,
+                run_id=env.scenario_id,
+                clock=self.clock,
+            )
 
     def _build_retrieval_indices(
         self,
@@ -684,3 +689,42 @@ class WarRoomOrchestrator:
             board_json_path=str(output_file),
             run_log_verified=is_chain_valid,
         )
+
+
+if __name__ == "__main__":
+    import argparse
+
+    parser = argparse.ArgumentParser(
+        description="Run War-Room incident response system on a scenario."
+    )
+    parser.add_argument(
+        "--scenario",
+        default="s1_bad_deploy",
+        help="Scenario ID (e.g. s1_bad_deploy, s3_upstream_outage, etc.)",
+    )
+    parser.add_argument(
+        "--demo",
+        action="store_true",
+        help="Print full output trace and timeline",
+    )
+    args = parser.parse_args()
+
+    async def _run_cli() -> None:
+        env = Environment(data_dir="data", scenario_id=args.scenario)
+        orch = WarRoomOrchestrator(env=env)
+        res = await orch.run()
+        print(f"\n=== WAR-ROOM RESOLUTION: {res.incident_id} ===")
+        print(f"Scenario: {res.scenario_id}")
+        print(f"Likely Cause: {res.likely_cause} (conf: {res.confidence:.2f})")
+        print(f"Mitigation: {res.mitigation.upper()} (Target: {res.target_service})")
+        print(f"Rationale: {res.rationale}")
+        print("\nRejected Alternatives:")
+        for rej in res.rejected_alternatives:
+            print(f"  - [{rej['mitigation']}] {rej['reason']}")
+        print(f"\nEvidence IDs: {', '.join(res.evidence_post_ids)}")
+        print(f"Board JSON: {res.board_json_path}")
+        print(f"Run Log Verified: {res.run_log_verified}")
+        print(f"\nPostmortem Timeline:\n{res.timeline_markdown}")
+
+    asyncio.run(_run_cli())
+

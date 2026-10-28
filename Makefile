@@ -17,5 +17,5 @@ test:
 	$(PYTEST) -q
 
 demo:
-	$(PYTHON) -m war_room.orchestrator --scenario s1_bad_deploy --demo
+	PYTHONPATH=src $(PYTHON) -m war_room.orchestrator --scenario s1_bad_deploy --demo
 
