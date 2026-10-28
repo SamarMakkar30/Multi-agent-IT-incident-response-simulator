@@ -4,6 +4,13 @@ All notable changes to the IT Incident Response War-Room project will be documen
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-10-28
+### Added
+- Phase 3: Explainable Retrieval & Safety Guards.
+- `src/war_room/retrieval.py`: Pure-Python Okapi BM25 retrieval engine with tokenization and explainable document scoring.
+- `src/war_room/guards.py`: Adversarial prompt-injection quarantine scanner, multi-author evidence guard, and confidence gate.
+- `tests/test_retrieval.py` and `tests/test_guards.py`: Unit tests validating BM25 rankings and guardrails (22 total tests passing).
+
 ## [0.3.0] - 2026-10-28
 ### Added
 - Phase 2: Synthetic Data & Reproducible Environment.
