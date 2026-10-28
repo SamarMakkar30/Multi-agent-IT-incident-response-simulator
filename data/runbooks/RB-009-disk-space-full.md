@@ -6,3 +6,4 @@
 ## Action Steps
 1. Evacuate stale container logs and rotated core dumps.
 2. Restart pods on fresh nodes with clean ephemeral volumes.
+

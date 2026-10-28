@@ -11,3 +11,4 @@
 2. Verify heap usage drops back to baseline post-restart.
 3. Capture a heap dump from one dying pod if possible for offline analysis.
 4. Open a high-priority bug ticket for the service owner to investigate the unbounded memory accumulation.
+

@@ -8,3 +8,4 @@
 1. Identify leaking transactions or unclosed connections in slow queries.
 2. Temporarily increase pool ceiling if DB server capacity allows.
 3. Perform graceful rolling restart of application pods holding stale connections.
+

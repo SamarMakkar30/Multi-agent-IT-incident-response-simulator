@@ -33,3 +33,4 @@
 ## ADR-005: Dual-Timestamp Postmortem Timeline Construction
 - **Context**: Output Contract requires chronological timeline with `incident_time` (when it happened in the system) and `war_room_time` (when an agent posted it).
 - **Decision**: `Post` models support both `posted_at` (war room clock) and optional `incident_time` (extracted from log timestamps or deployment records). The postmortem timeline builder extracts and formats both columns deterministically without freehand LLM generation.
+

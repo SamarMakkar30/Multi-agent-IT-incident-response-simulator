@@ -4,3 +4,4 @@
 {"timestamp": "2026-10-28T14:25:00Z", "level": "CRITICAL", "service": "search-service", "signature": "ProcessExit: OOMKilled code 137", "message": "Container search-service-pod-x92 terminated by Linux kernel OOMKiller (exit code 137)"}
 {"timestamp": "2026-10-28T14:26:15Z", "level": "INFO", "service": "search-service", "message": "Kubelet restarting container search-service-pod-x92"}
 {"timestamp": "2026-10-28T14:34:40Z", "level": "ERROR", "service": "search-service", "signature": "OutOfMemoryError: Java heap space", "message": "java.lang.OutOfMemoryError: Java heap space at com.company.search.QueryCache.put(QueryCache.java:142)"}
+

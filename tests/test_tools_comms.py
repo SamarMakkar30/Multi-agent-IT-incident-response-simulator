@@ -40,3 +40,4 @@ def test_check_comms_policy_violations():
     assert any("IP" in v for v in check.violations)
     assert any("email" in v for v in check.violations)
     assert any("stack trace" in v for v in check.violations)
+

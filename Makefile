@@ -18,3 +18,4 @@ test:
 
 demo:
 	$(PYTHON) -m war_room.orchestrator --scenario s1_bad_deploy --demo
+

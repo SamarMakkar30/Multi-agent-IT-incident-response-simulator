@@ -4,6 +4,18 @@ All notable changes to the IT Incident Response War-Room project will be documen
 
 ## [Unreleased]
 
+## [0.7.0] - 2026-10-28
+### Added
+- Phase 6: War-Room Orchestrator & End-to-End Scenarios S1-S6.
+- `src/war_room/orchestrator.py`: Multi-round blackboard coordination engine:
+  - Normalization: Alert Agent posts incident signal.
+  - Round 1: Parallel fan-out of Logs & Dependency Agents with fan-in barrier confirmation.
+  - Round 2: Mitigation Agent retrieves runbooks and past incidents to propose ranked remediations.
+  - Round 3: Incident Commander validates evidence, manages evidence-request loops, records decisions or escalates.
+  - Round 4: Comms Agent drafts public status updates with policy compliance checks.
+  - Deterministic timeline construction and output JSON persistence.
+- `tests/test_scenarios.py`: 6 end-to-end integration tests covering S1 bad deploy, S2 memory leak, S3 upstream provider outage with failover, S4 honest failure (ambiguous evidence loop exhaustion & human escalation), S5 prompt injection quarantine, and S6 rollback unsafe schema migration rejection (52 total tests passing).
+
 ## [0.6.0] - 2026-10-28
 ### Added
 - Phase 5: Multi-Agent Modules & LLM Client.

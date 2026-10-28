@@ -6,3 +6,4 @@
 ## Action Steps
 1. Verify downstream service has restored health and latency has normalized.
 2. Manually transition breaker from OPEN to HALF-OPEN to allow canary probe traffic.
+

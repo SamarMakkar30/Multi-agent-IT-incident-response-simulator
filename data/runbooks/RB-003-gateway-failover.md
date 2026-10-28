@@ -10,3 +10,4 @@
 2. Confirm sync replication and quota capacity on the secondary provider.
 3. Switch active traffic routing in the gateway configuration from `primary` to `secondary`.
 4. Validate that transaction success rates recover and latency returns within SLO limits.
+

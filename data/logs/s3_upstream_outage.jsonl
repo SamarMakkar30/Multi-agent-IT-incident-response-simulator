@@ -3,3 +3,4 @@
 {"timestamp": "2026-10-28T16:03:16Z", "level": "ERROR", "service": "orders-service", "signature": "GatewayTimeout: 504 from payments-gateway", "message": "HTTP 504 Gateway Timeout received from payments-gateway on POST /v1/charge"}
 {"timestamp": "2026-10-28T16:04:22Z", "level": "ERROR", "service": "payments-gateway", "signature": "ConnectTimeoutException: external-payments-primary", "message": "org.apache.http.conn.ConnectTimeoutException: Connect to primary-processor.globalpay.internal:443 timed out"}
 {"timestamp": "2026-10-28T16:04:25Z", "level": "ERROR", "service": "orders-service", "signature": "GatewayTimeout: 504 from payments-gateway", "message": "HTTP 504 Gateway Timeout received from payments-gateway on POST /v1/charge"}
+

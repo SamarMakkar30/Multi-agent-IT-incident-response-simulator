@@ -67,7 +67,7 @@
     ```
   - Standard assistant text response:
     ```python
-    Content.from_text("Response text") # or contents=["Response text"]
+    Content.from_text("Response text")  # or contents=["Response text"]
     ```
 
 ## 3. Findings & Architectural Strategy

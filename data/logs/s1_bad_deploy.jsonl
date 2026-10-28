@@ -5,3 +5,4 @@
 {"timestamp": "2026-10-28T10:18:22Z", "level": "ERROR", "service": "checkout-service", "signature": "NullPointerException: CheckoutController.processCart:84", "message": "java.lang.NullPointerException: Cannot invoke DiscountRule.calculate() because discountVoucher is null at com.company.checkout.CheckoutController.processCart(CheckoutController.java:84)"}
 {"timestamp": "2026-10-28T10:19:15Z", "level": "ERROR", "service": "checkout-service", "signature": "NullPointerException: CheckoutController.processCart:84", "message": "java.lang.NullPointerException: Cannot invoke DiscountRule.calculate() because discountVoucher is null at com.company.checkout.CheckoutController.processCart(CheckoutController.java:84)"}
 {"timestamp": "2026-10-28T10:20:00Z", "level": "WARN", "service": "checkout-service", "message": "SLO breach: HTTP 500 error budget degraded"}
+

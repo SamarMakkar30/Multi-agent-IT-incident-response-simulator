@@ -12,3 +12,4 @@
    - If `breaking_db_migration == true`: DO NOT ROLLBACK (see RB-008). Rollback will cause catastrophic schema mismatch.
 3. Trigger deployment pipeline rollback to the previous stable release artifact.
 4. Monitor service error rate for 5 minutes post-rollback to verify stabilization.
+
