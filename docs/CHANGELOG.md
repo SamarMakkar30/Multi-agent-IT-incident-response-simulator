@@ -4,6 +4,17 @@ All notable changes to the IT Incident Response War-Room project will be documen
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-10-28
+### Added
+- Phase 2: Synthetic Data & Reproducible Environment.
+- `data/topology.json`: 12 services across Tiers 1-3 with dependencies, SLOs, and ownership.
+- `data/deploys.json`: Historical releases with commit SHAs, timestamps, and DB migration risk flags.
+- `data/runbooks/`: 10 Markdown runbooks covering rollbacks, restarts, failovers, pool exhaustion, and migrations.
+- `data/past_incidents.json`: 15 past incidents with root causes and resolutions.
+- `data/scenarios/`, `data/logs/`, and `data/metrics/`: Complete synthetic datasets for scenarios S1 through S6.
+- `src/war_room/environment.py`: `Environment` simulation engine with time-bounded reproducible queries.
+- `tests/test_environment.py`: Unit tests validating topology, deploys, logs, and runbooks.
+
 ## [0.2.0] - 2026-10-28
 ### Added
 - Phase 1: Core Blackboard and Append-Only Run Log.

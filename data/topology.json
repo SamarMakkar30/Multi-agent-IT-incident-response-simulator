@@ -1,0 +1,136 @@
+{
+  "services": {
+    "checkout-service": {
+      "name": "checkout-service",
+      "tier": 1,
+      "owner": "team-checkout",
+      "slo": 0.9995,
+      "user_facing": true,
+      "dependencies": {
+        "upstreams": ["api-gateway"],
+        "downstreams": ["orders-service", "payments-gateway", "inventory-service"]
+      }
+    },
+    "orders-service": {
+      "name": "orders-service",
+      "tier": 1,
+      "owner": "team-orders",
+      "slo": 0.999,
+      "user_facing": true,
+      "dependencies": {
+        "upstreams": ["checkout-service"],
+        "downstreams": ["payments-gateway", "database-cluster", "notification-service"]
+      }
+    },
+    "payments-gateway": {
+      "name": "payments-gateway",
+      "tier": 1,
+      "owner": "team-payments",
+      "slo": 0.9999,
+      "user_facing": false,
+      "dependencies": {
+        "upstreams": ["checkout-service", "orders-service"],
+        "downstreams": ["external-payments-primary", "external-payments-secondary"]
+      }
+    },
+    "search-service": {
+      "name": "search-service",
+      "tier": 2,
+      "owner": "team-search",
+      "slo": 0.995,
+      "user_facing": true,
+      "dependencies": {
+        "upstreams": ["api-gateway"],
+        "downstreams": ["inventory-service"]
+      }
+    },
+    "auth-service": {
+      "name": "auth-service",
+      "tier": 1,
+      "owner": "team-security",
+      "slo": 0.9999,
+      "user_facing": true,
+      "dependencies": {
+        "upstreams": ["api-gateway"],
+        "downstreams": ["database-cluster"]
+      }
+    },
+    "inventory-service": {
+      "name": "inventory-service",
+      "tier": 2,
+      "owner": "team-fulfillment",
+      "slo": 0.995,
+      "user_facing": false,
+      "dependencies": {
+        "upstreams": ["checkout-service", "orders-service", "search-service"],
+        "downstreams": ["database-cluster"]
+      }
+    },
+    "notification-service": {
+      "name": "notification-service",
+      "tier": 3,
+      "owner": "team-growth",
+      "slo": 0.99,
+      "user_facing": false,
+      "dependencies": {
+        "upstreams": ["orders-service"],
+        "downstreams": []
+      }
+    },
+    "analytics-service": {
+      "name": "analytics-service",
+      "tier": 3,
+      "owner": "team-data",
+      "slo": 0.985,
+      "user_facing": false,
+      "dependencies": {
+        "upstreams": ["orders-service", "checkout-service"],
+        "downstreams": []
+      }
+    },
+    "shipping-service": {
+      "name": "shipping-service",
+      "tier": 2,
+      "owner": "team-logistics",
+      "slo": 0.99,
+      "user_facing": false,
+      "dependencies": {
+        "upstreams": ["orders-service"],
+        "downstreams": ["database-cluster"]
+      }
+    },
+    "api-gateway": {
+      "name": "api-gateway",
+      "tier": 1,
+      "owner": "team-platform",
+      "slo": 0.9999,
+      "user_facing": true,
+      "dependencies": {
+        "upstreams": [],
+        "downstreams": ["checkout-service", "search-service", "auth-service", "user-profile"]
+      }
+    },
+    "user-profile": {
+      "name": "user-profile",
+      "tier": 2,
+      "owner": "team-core",
+      "slo": 0.995,
+      "user_facing": true,
+      "dependencies": {
+        "upstreams": ["api-gateway"],
+        "downstreams": ["database-cluster"]
+      }
+    },
+    "database-cluster": {
+      "name": "database-cluster",
+      "tier": 1,
+      "owner": "team-dba",
+      "slo": 0.9999,
+      "user_facing": false,
+      "dependencies": {
+        "upstreams": ["orders-service", "auth-service", "inventory-service", "shipping-service", "user-profile"],
+        "downstreams": []
+      }
+    }
+  }
+}

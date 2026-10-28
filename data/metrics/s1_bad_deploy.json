@@ -1,0 +1,13 @@
+{
+  "service": "checkout-service",
+  "time_window_minutes": 30,
+  "metrics": {
+    "http_error_rate_5xx": 0.185,
+    "p99_latency_ms": 320,
+    "cpu_utilization": 0.42,
+    "memory_utilization": 0.55,
+    "request_volume_rpm": 12500,
+    "container_restarts": 0
+  },
+  "health_status": "DEGRADED"
+}

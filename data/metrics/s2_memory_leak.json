@@ -1,0 +1,13 @@
+{
+  "service": "search-service",
+  "time_window_minutes": 30,
+  "metrics": {
+    "http_error_rate_5xx": 0.04,
+    "p99_latency_ms": 1450,
+    "cpu_utilization": 0.88,
+    "memory_utilization": 0.98,
+    "request_volume_rpm": 8200,
+    "container_restarts": 6
+  },
+  "health_status": "DEGRADED"
+}

@@ -1,0 +1,23 @@
+{
+  "scenario_id": "s6_rollback_unsafe",
+  "incident_id": "INC-20261028-006",
+  "simulation_now": "2026-10-28T10:00:00Z",
+  "alert": {
+    "alert_id": "ALT-9006",
+    "alert_name": "InventoryQueryFailurePostDeploy",
+    "service": "inventory-service",
+    "triggered_at": "2026-10-28T09:45:00Z",
+    "metric": "http_5xx_rate",
+    "current_value": 0.12,
+    "threshold": 0.01,
+    "severity": "CRITICAL",
+    "message": "inventory-service 5xx error rate spiked following deployment v2.0.0"
+  },
+  "expected_outcome": {
+    "likely_cause": "deploy regression with breaking database migration",
+    "mitigation": "restart",
+    "rejected_mitigation": "rollback",
+    "rejection_reason": "Breaking database migration prevents safe rollback",
+    "target_service": "inventory-service"
+  }
+}

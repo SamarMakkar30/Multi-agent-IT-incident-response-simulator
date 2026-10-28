@@ -1,0 +1,170 @@
+{
+  "incidents": [
+    {
+      "incident_id": "INC-HIST-001",
+      "title": "Checkout 5xx spike after v2.12 release",
+      "date": "2026-08-14",
+      "service": "checkout-service",
+      "symptoms": "5xx error rate jumped from 0.01% to 15% immediately following deployment of v2.12.0. Logs showed NullPointerException in payment payload serialization.",
+      "root_cause": "Deploy regression: unhandled null pointer in new discount validator code.",
+      "resolution": "rollback",
+      "target_service": "checkout-service",
+      "target_version": "v2.11.8",
+      "notes": "Rollback succeeded within 4 minutes, restoring normal checkout conversions."
+    },
+    {
+      "incident_id": "INC-HIST-002",
+      "title": "Search service memory leak and OOM crash-loop",
+      "date": "2026-07-22",
+      "service": "search-service",
+      "symptoms": "Search pods restarting every 40 minutes due to OOMKilled exit code 137. Heap graphs showed steady linear memory growth with zero leveling off.",
+      "root_cause": "Query result cache unbounded retention key leak.",
+      "resolution": "restart",
+      "target_service": "search-service",
+      "notes": "Staggered rolling restart stabilized latency while engineering patched the cache TTL."
+    },
+    {
+      "incident_id": "INC-HIST-003",
+      "title": "Primary payment provider timeout outage",
+      "date": "2026-09-05",
+      "service": "payments-gateway",
+      "symptoms": "Orders service experiencing 504 Gateway Timeouts when calling payments-gateway. Outbound requests to primary payment partner failing with connection refused.",
+      "root_cause": "External payment gateway provider major network outage.",
+      "resolution": "failover",
+      "target_service": "payments-gateway",
+      "notes": "Failover to secondary warm provider restored 99.98% authorization rate."
+    },
+    {
+      "incident_id": "INC-HIST-004",
+      "title": "Auth service intermittent latency degradation",
+      "date": "2026-06-11",
+      "service": "auth-service",
+      "symptoms": "Intermittent token validation delays; logs showed sparse warnings without clear root cause.",
+      "root_cause": "Database connection saturation on read replica.",
+      "resolution": "escalate_to_human",
+      "target_service": "auth-service",
+      "notes": "Ambiguous symptoms required DBA investigation to tune connection limits."
+    },
+    {
+      "incident_id": "INC-HIST-005",
+      "title": "Inventory service breaking migration deploy failure",
+      "date": "2026-05-19",
+      "service": "inventory-service",
+      "symptoms": "Errors after v1.8 deploy due to schema change. Rollback was attempted but caused complete outage because old code expected deleted table.",
+      "root_cause": "Destructive DB migration made code rollback unsafe.",
+      "resolution": "failover",
+      "target_service": "inventory-service",
+      "notes": "Emergency hotfix was required; rollback was rejected as dangerous."
+    },
+    {
+      "incident_id": "INC-HIST-006",
+      "title": "API Gateway CPU spike under traffic burst",
+      "date": "2026-04-02",
+      "service": "api-gateway",
+      "symptoms": "Gateway CPU reached 98% during marketing campaign; latency increased across all endpoints.",
+      "root_cause": "Excessive regex parsing in edge routing rules.",
+      "resolution": "restart",
+      "target_service": "api-gateway",
+      "notes": "Scaled out pod count and restarted overloaded instances."
+    },
+    {
+      "incident_id": "INC-HIST-007",
+      "title": "User Profile service Redis cache disconnect",
+      "date": "2026-03-15",
+      "service": "user-profile",
+      "symptoms": "Sudden increase in direct database load as cache hit ratio dropped to zero.",
+      "root_cause": "Redis cluster node failover hiccup.",
+      "resolution": "restart",
+      "target_service": "user-profile",
+      "notes": "Restarted connection pools to trigger Redis reconnect."
+    },
+    {
+      "incident_id": "INC-HIST-008",
+      "title": "Shipping service downstream carrier API degradation",
+      "date": "2026-02-28",
+      "service": "shipping-service",
+      "symptoms": "Label generation timeouts when contacting primary shipping carrier API.",
+      "root_cause": "Carrier API maintenance window unannounced.",
+      "resolution": "failover",
+      "target_service": "shipping-service",
+      "notes": "Routed label generation requests to backup logistics partner."
+    },
+    {
+      "incident_id": "INC-HIST-009",
+      "title": "Notification service worker pool thread exhaustion",
+      "date": "2026-01-19",
+      "service": "notification-service",
+      "symptoms": "SMS queues backing up; worker thread pool completely stalled.",
+      "root_cause": "Synchronous HTTP socket hang on unresponsive third-party SMS webhook.",
+      "resolution": "restart",
+      "target_service": "notification-service",
+      "notes": "Rolling restart with socket timeouts forced queue drainage."
+    },
+    {
+      "incident_id": "INC-HIST-010",
+      "title": "Orders service database lock contention",
+      "date": "2025-12-04",
+      "service": "orders-service",
+      "symptoms": "Order creation latency p99 breached 8 seconds; row locks blocking inserts.",
+      "root_cause": "Unindexed foreign key check during concurrent checkout transactions.",
+      "resolution": "escalate_to_human",
+      "target_service": "orders-service",
+      "notes": "On-call DBA killed long-running lock query and added concurrent index."
+    },
+    {
+      "incident_id": "INC-HIST-011",
+      "title": "Search index corruption following node reboot",
+      "date": "2025-11-12",
+      "service": "search-service",
+      "symptoms": "Search results returning empty arrays for popular product queries.",
+      "root_cause": "Shard corruption after dirty shutdown.",
+      "resolution": "failover",
+      "target_service": "search-service",
+      "notes": "Failed over queries to standby search replica while primary rebuilt shards."
+    },
+    {
+      "incident_id": "INC-HIST-012",
+      "title": "Checkout service cart validation bug in v2.10",
+      "date": "2025-10-08",
+      "service": "checkout-service",
+      "symptoms": "Immediate spike in 400 Bad Request on cart submit right after deployment.",
+      "root_cause": "Deploy regression in frontend schema validation contracts.",
+      "resolution": "rollback",
+      "target_service": "checkout-service",
+      "notes": "Rolled back to v2.9.4 within 5 minutes."
+    },
+    {
+      "incident_id": "INC-HIST-013",
+      "title": "Analytics service memory leak on bulk batch ingestion",
+      "date": "2025-09-20",
+      "service": "analytics-service",
+      "symptoms": "OOM crash every evening at midnight during daily batch aggregation.",
+      "root_cause": "Unbuffered dataframe aggregation holding entire day's logs in memory.",
+      "resolution": "restart",
+      "target_service": "analytics-service",
+      "notes": "Restarted analytics workers and chunked the batch jobs."
+    },
+    {
+      "incident_id": "INC-HIST-014",
+      "title": "Database replica lag spike causing stale reads",
+      "date": "2025-08-30",
+      "service": "database-cluster",
+      "symptoms": "Users seeing outdated profile updates due to 45-second replication lag.",
+      "root_cause": "Network saturation between availability zones.",
+      "resolution": "escalate_to_human",
+      "target_service": "database-cluster",
+      "notes": "Infrastructure team rerouted replication traffic to dedicated direct connect."
+    },
+    {
+      "incident_id": "INC-HIST-015",
+      "title": "Payments gateway provider certificate expiration",
+      "date": "2025-07-15",
+      "service": "payments-gateway",
+      "symptoms": "SSL handshake errors connecting to primary processor.",
+      "root_cause": "Expired intermediate CA certificate on primary provider endpoint.",
+      "resolution": "failover",
+      "target_service": "payments-gateway",
+      "notes": "Failed over to secondary processor until provider refreshed their certificates."
+    }
+  ]
+}

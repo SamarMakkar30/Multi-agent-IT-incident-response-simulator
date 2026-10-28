@@ -1,0 +1,21 @@
+{
+  "scenario_id": "s4_ambiguous_evidence",
+  "incident_id": "INC-20261028-004",
+  "simulation_now": "2026-10-28T18:00:00Z",
+  "alert": {
+    "alert_id": "ALT-9004",
+    "alert_name": "AuthTokenLatencyDrift",
+    "service": "auth-service",
+    "triggered_at": "2026-10-28T17:50:00Z",
+    "metric": "p95_latency_seconds",
+    "current_value": 0.38,
+    "threshold": 0.30,
+    "severity": "WARNING",
+    "message": "auth-service p95 latency slightly elevated; error rate zero, no crash detected"
+  },
+  "expected_outcome": {
+    "likely_cause": "inconclusive / sparse evidence",
+    "mitigation": "escalate_to_human",
+    "target_service": "auth-service"
+  }
+}

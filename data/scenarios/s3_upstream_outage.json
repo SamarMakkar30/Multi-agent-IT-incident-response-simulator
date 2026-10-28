@@ -1,0 +1,21 @@
+{
+  "scenario_id": "s3_upstream_outage",
+  "incident_id": "INC-20261028-003",
+  "simulation_now": "2026-10-28T16:15:00Z",
+  "alert": {
+    "alert_id": "ALT-9003",
+    "alert_name": "OrderPaymentTimeouts",
+    "service": "orders-service",
+    "triggered_at": "2026-10-28T16:05:00Z",
+    "metric": "payment_gateway_timeout_rate",
+    "current_value": 0.45,
+    "threshold": 0.02,
+    "severity": "CRITICAL",
+    "message": "orders-service 45% of outbound charge requests to payments-gateway timing out"
+  },
+  "expected_outcome": {
+    "likely_cause": "upstream provider outage",
+    "mitigation": "failover",
+    "target_service": "payments-gateway"
+  }
+}

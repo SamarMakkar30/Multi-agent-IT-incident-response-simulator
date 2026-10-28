@@ -1,0 +1,13 @@
+{
+  "service": "auth-service",
+  "time_window_minutes": 30,
+  "metrics": {
+    "http_error_rate_5xx": 0.001,
+    "p99_latency_ms": 380,
+    "cpu_utilization": 0.35,
+    "memory_utilization": 0.45,
+    "request_volume_rpm": 9500,
+    "container_restarts": 0
+  },
+  "health_status": "HEALTHY"
+}

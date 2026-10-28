@@ -1,0 +1,21 @@
+{
+  "scenario_id": "s2_memory_leak",
+  "incident_id": "INC-20261028-002",
+  "simulation_now": "2026-10-28T14:45:00Z",
+  "alert": {
+    "alert_id": "ALT-9002",
+    "alert_name": "PodRestartLoopAndOOM",
+    "service": "search-service",
+    "triggered_at": "2026-10-28T14:35:00Z",
+    "metric": "container_restart_count",
+    "current_value": 6.0,
+    "threshold": 2.0,
+    "severity": "CRITICAL",
+    "message": "search-service containers restarting repeatedly with exit code 137 (OOMKilled)"
+  },
+  "expected_outcome": {
+    "likely_cause": "memory leak",
+    "mitigation": "restart",
+    "target_service": "search-service"
+  }
+}

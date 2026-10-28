@@ -1,0 +1,4 @@
+{"timestamp": "2026-10-28T17:40:00Z", "level": "INFO", "service": "auth-service", "message": "Issued session token for user 91842"}
+{"timestamp": "2026-10-28T17:45:10Z", "level": "INFO", "service": "auth-service", "message": "JWT validation completed in 12ms"}
+{"timestamp": "2026-10-28T17:48:33Z", "level": "WARN", "service": "auth-service", "message": "Slight latency variance detected on worker pool: 310ms"}
+{"timestamp": "2026-10-28T17:50:00Z", "level": "INFO", "service": "auth-service", "message": "Worker pool reporting healthy metrics"}
