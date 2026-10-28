@@ -4,6 +4,14 @@ All notable changes to the IT Incident Response War-Room project will be documen
 
 ## [Unreleased]
 
+## [0.6.0] - 2026-10-28
+### Added
+- Phase 5: Multi-Agent Modules & LLM Client.
+- `src/war_room/llm.py`: Provider factory with `ScriptedChatClient` for deterministic offline execution.
+- `src/war_room/agents/`: 6 distinct agent modules each with single role and builder:
+  - `alert_agent.py`, `logs_agent.py`, `dependency_agent.py`, `mitigation_agent.py`, `commander_agent.py`, `comms_agent.py`.
+- `tests/test_architecture.py`: Structural AST conformance tests asserting module boundaries, tool counts, zero cross-agent imports, least-privilege Commander, and immutable board (46 total tests passing).
+
 ## [0.5.0] - 2026-10-28
 ### Added
 - Phase 4: Typed Domain Tools.
