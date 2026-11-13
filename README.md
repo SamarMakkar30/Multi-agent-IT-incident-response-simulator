@@ -148,3 +148,4 @@ Launch Jupyter to inspect interactive multi-agent traces and postmortem tables:
 jupyter notebook notebooks/demo.ipynb
 ```
 *(The notebook is pre-populated and verified to pass with **Restart and Run All** in offline mode).*
+
